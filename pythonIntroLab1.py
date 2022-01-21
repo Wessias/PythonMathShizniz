@@ -76,8 +76,12 @@ def betterRationalApprox(valueToApprox, curApprox, startQ):
 
     
     
-#B = betterRationalApprox(pi, 355/113, 99531)
-#print(B, "in the form (p,q)")
+B = betterRationalApprox(pi, 355/113, 1)
+print(B, "in the form (p,q) is the next best rational approximation p/q of pi after 355/113")
+
+
+
+
 
 
 def econRationalApprox(valueToApprox, curApprox, digits):
