@@ -49,7 +49,7 @@ def approxInt(n, f):
 
 f = lambda x : (1-x**3)**(1/3)
 
-I = approxInt(420420, f)
+I = approxInt(math.factorial(10), f)
 
 
 
@@ -76,7 +76,7 @@ def betterRationalApprox(valueToApprox, curApprox, startQ):
 
     
     
-B = betterRationalApprox(pi, 355/113, 1)
+B = betterRationalApprox(pi, 355/113, 113)
 print(B, "in the form (p,q) is the next best rational approximation p/q of pi after 355/113")
 
 
