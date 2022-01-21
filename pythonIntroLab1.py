@@ -27,8 +27,8 @@ def approxPi(n):
     PiApprox = (onCircle / n) * 4
     return PiApprox
     
-#x = approxPi(696969)
-#print("Approx of pi is", x,"\nDeviation from pi is", abs(x-pi))
+x = approxPi(696969)
+print("Approx of pi is", x,"\nDeviation from pi is", abs(x-pi))
 
 #-----------------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ def approxInt(n, f):
 
 f = lambda x : (1-x**3)**(1/3)
 
-#I = approxInt(420420, f)
+I = approxInt(420420, f)
 
 
 
@@ -58,8 +58,6 @@ f = lambda x : (1-x**3)**(1/3)
 
 #UPPGIFT 3: RATIONELL APPROX AV PI
 
-
-startApprox = 355/113
 
 # c = value that should be approximated
 def betterRationalApprox(valueToApprox, curApprox, startQ):
@@ -78,7 +76,7 @@ def betterRationalApprox(valueToApprox, curApprox, startQ):
 
     
     
-#B = betterRationalApprox(pi, startApprox, 99531)
+#B = betterRationalApprox(pi, 355/113, 99531)
 #print(B, "in the form (p,q)")
 
 
@@ -106,42 +104,85 @@ def econRationalApprox(valueToApprox, curApprox, digits):
             p += 1
             
 
-for i in range(1, 5):
+#for i in range(1, 5):
+#    
+#    RationalNum = econRationalApprox(math.e, 2.7,i)
+#    print(RationalNum[0], "/", RationalNum[1], "is the best economical approximation with", i, "digits in the denominator" )
+#    curBestApprox = RationalNum[0] / RationalNum[1]
+
+
+
+#-----------------------------------------------------------------------------
+
+
+
+
+
+#BÄTTRE UPPGIFT 3 OCH 4:
+
+
+def fracRep(realNum, termsInFrac):
     
-    RationalNum = econRationalApprox(math.e, 2.7,i)
-    print(RationalNum[0], "/", RationalNum[1], "is the best economical approximation with", i, "digits in the denominator" )
-    curBestApprox = RationalNum[0] / RationalNum[1]
+    frac = []
+    
+    for i in range(0, termsInFrac):
+        n = math.floor(realNum)
+        frac.append(n)
+        realNum = 1 / (realNum - n)
+        
+    return frac
+
+paj_frac = fracRep(pi, 42)    
+e_frac = fracRep(math.e, 69)
+
+#https://en.wikipedia.org/wiki/Continued_fraction#Continued_fraction_expansion_of_%CF%80_and_its_convergents
+#http://oeis.org/A003417
+
+def findBetterRatApprox(fracExpanse, numToApprox, curApprox):
+    # initialize the recursion 
+    p0 = fracExpanse[0]
+    q0 = 1
+    p1 = fracExpanse[0]*fracExpanse[1] + 1
+    q1 = fracExpanse[1]
+
+    for i in fracExpanse[2:]:
+        p = i*p1 + p0 # numerator
+        q = i*q1 + q0 # denominator
+        if ( abs(p / q - numToApprox) < abs(curApprox - numToApprox) ):
+            return (p,q)
+        p1, p0 = p, p1
+        q1, q0 = q, q1
+
+pajApprox = findBetterRatApprox(paj_frac, pi, 355/113)
 
 
 
-
-e_frac = [2, 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, 1, 1, 10, 1, 1, 12]
-
-def approx(fracExpanse, exact):
-    # initialize the recurrence http://oeis.org/A003417
-    n0 = fracExpanse[0]
-    d0 = 1
-    n1 = fracExpanse[0]*fracExpanse[1] + 1
-    d1 = fracExpanse[1]
-
-    print(n0, d0)
-    print(n1, d1)
-
-    for x in fracExpanse[2:]:
-        n = x*n1 + n0 # numerator
-        d = x*d1 + d0 # denominator
-        print (n, d, n/d)
-        n1, n0 = n, n1
-        d1, d0 = d, d1
-
-approx(e_frac, math.e)
-
+def findEconRatApprox(fracExpanse, numToApprox, digitsOfQ):
+    
+    p0 = fracExpanse[0]
+    q0 = 1
+    p1 = fracExpanse[0]*fracExpanse[1] + 1
+    q1 = fracExpanse[1]
+    tempP = 0
+    tempQ = 1
+    for i in fracExpanse[2:]:
+        p = i*p1 + p0 # numerator
+        q = i*q1 + q0 # denominator
+        if ( len(str(q)) > digitsOfQ ):
+            return (tempP, tempQ)
+        
+        elif (abs(p / q - numToApprox) < abs(tempP / tempQ - numToApprox)):
+            tempP = p
+            tempQ = q
+            
+        p1, p0 = p, p1
+        q1, q0 = q, q1
 
 
-
-
-
-
+econRats = []
+for i in range(1, 7):
+    econRats.append(findEconRatApprox(e_frac, math.e, i))
+    print("Best rational approximation of e with", i, "digit(s) in the denominator is", econRats[i - 1])
 
 
 
