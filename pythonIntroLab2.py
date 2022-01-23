@@ -104,10 +104,13 @@ def longest_seq_in_list (DigList):
 
 
  
-digSeqOfPaj = longest_seq_in_list(tal4) #DOUBLE CHECK INDEX
+digSeqOfPaj = longest_seq_in_list(np.int16(pi5)) #DOUBLE CHECK INDEX
 DigSeqofE = longest_seq_in_list(np.int16(e5))
 
-
+a = longest_seq_in_list(tal1)
+b = longest_seq_in_list(tal2) #LAST INDEX GETS FUGD, should prob do special for 1st and last
+c = longest_seq_in_list(tal3)
+d = longest_seq_in_list(tal4)
 
 
 np.int
