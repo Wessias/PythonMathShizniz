@@ -49,7 +49,7 @@ def approxInt(n, f):
 
 f = lambda x : (1-x**3)**(1/3)
 
-I = approxInt(math.factorial(10), f)
+I = approxInt(math.factorial(5), f)
 
 
 
