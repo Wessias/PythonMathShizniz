@@ -92,6 +92,43 @@ def find_item_index_in_square_matrix(matrix, item):
 #-----------------------------------------------------------------------------
 
 
+def cryptAlgo(letterPairs, matrix, crypt):
+    
+    cryptPairs = []
+    
+    
+    move = -1 #Move left/up (In the matrix)
+    if(crypt):
+        move = 1 #Move right/down
+        
+
+    for pair in letterPairs:
+
+        
+        indexLetter1 = find_item_index_in_square_matrix(matrix, pair[0])
+        indexLetter2 = find_item_index_in_square_matrix(matrix,pair[1])
+        
+        if(indexLetter1[0] == indexLetter2[0]):#Check if same row
+            cryptPairs.append( matrix[indexLetter1[0]][(indexLetter1[1] + move) % 5] +
+                              matrix[indexLetter2[0]][(indexLetter2[1] + move ) % 5] )
+            
+        elif(indexLetter1[1] == indexLetter2[1]):#Check if same col
+            cryptPairs.append( matrix[(indexLetter1[0] + move) % 5][indexLetter1[1]] +
+                               matrix[(indexLetter2[0] + move) % 5][indexLetter2[1]])
+        
+                
+        else:
+            #The letters stay in the same row but swap columns with each other
+            tempPair = matrix[indexLetter1[0]][indexLetter2[1]] + matrix[indexLetter2[0]][indexLetter1[1]]
+            cryptPairs.append(tempPair)
+            
+    
+    print(cryptPairs)
+    return cryptPairs
+
+
+#-----------------------------------------------------------------------------
+
 def playfair(text, key, crypt):
         
     finKey = ""
@@ -103,16 +140,29 @@ def playfair(text, key, crypt):
     PFCMatrix = populate_matrix_with_key(finKey, create_n_matrix(5))
     PFCMatrix = poupulate_with_rest_of_alpha(finKey, PFCMatrix)
     
+ 
+
     letterPairs = list_of_split_string_in_pairs(text)
+    print(letterPairs)
     
+    finalCrypt = cryptAlgo(letterPairs, PFCMatrix, crypt)
     
-    return PFCMatrix
+    strFinCrypt = ""
+    for p in finalCrypt:
+        strFinCrypt += p
+        
+    
+    return strFinCrypt, PFCMatrix, finalCrypt
 
 
 
 testKey = "PLAYFAIREXAMPLE"
 testText = "HIDETHEGOLDINTHETREESTUMP"
-D = playfair(testText, "HEMLIGT", True)
 
+chiffer = 'FLAPJBCZFAEMAUHJNREPGPDVUNLINGNWSRMCABAHTNOREPFESGFSEMBSAHGOHJNREPGPDVUNCRAJLAEMHJNGSRPAAMNEXUULHDLEDZ'
+chifKey = "NOPRESSURENODIAMONDS"
 
+D =  playfair(chiffer, chifKey, False)
+
+E = playfair(D[0], chifKey, True)
 
