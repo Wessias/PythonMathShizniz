@@ -22,7 +22,7 @@ imMat = np.asarray(im)
 imgLocation = ""
 
 curDir = "/"
-q = list(os.walk(".\pictures\labb4")) #walk returns list (generator) of 3 tuples (dirpath, dirnames, filenames)
+q = list(os.walk("./pictures/labb4")) #walk returns list (generator) of 3 tuples (dirpath, dirnames, filenames)
 
 
 
