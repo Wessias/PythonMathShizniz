@@ -120,7 +120,7 @@ def longest_seq_in_list (DigList):
 
 
  
-digSeqOfPaj = longest_seq_in_list(np.int16(pi5)) #DOUBLE CHECK INDEX
+digSeqOfPaj = longest_seq_in_list(np.int16(pi5)) 
 DigSeqofE = longest_seq_in_list(np.int16(e5))
 
 #a = longest_seq_in_list(tal1)
