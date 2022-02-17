@@ -5,6 +5,7 @@ Created on Sun Feb  6 13:49:10 2022
 @author: Regnd
 """
 import numpy as np
+import matplotlib.pyplot as plt
 import os
 from PIL import Image
 
@@ -13,16 +14,15 @@ from PIL import Image
 #760 x 580 images
 
 
-print(os.listdir("./pictures/labb4/testpics/"))
 
-im = Image.open("./pictures/labb4/testpics/testbild.bmp") #TESTPIC
 
-imMat = np.asarray(im)
+
+
 
 imgLocation = ""
 
-curDir = "/"
-q = list(os.walk("./pictures/labb4")) #walk returns list (generator) of 3 tuples (dirpath, dirnames, filenames)
+curDir = ""
+picDir = os.walk("./pictures/labb4") #walk returns list (generator) of 3 tuples (dirpath, dirnames, filenames)
 
 
 
@@ -68,4 +68,86 @@ def find_gPlus_in_imageMatrix(matrix):
     return gPlusCount
 
 
-p = find_gPlus_in_imageMatrix(imMat)
+
+# 1. totala antalet bildfiler
+# 2. minsta antalet plus i en fil och namnen på de filer som har detta minsta antal
+# 3. största antalet plus i en fil och namnen på de filer som har detta största antal
+# 4. medelvärdet av antalet plus
+# 5. totala antalet plus
+
+
+
+
+fileCount = 0
+searchedFiles = []
+minGplus = [10000,[]] #[Amount, [files]]
+maxGplus = [0,[]]
+averageGplus = 0
+totalGplus = 0
+histData = []
+
+for dirpath, dirname, files in picDir:
+    for file in files:
+        if (len(file) > 4 and file[-4:] == ".bmp"):
+            
+            imStr = dirpath + "/" + file
+            tempIm = Image.open(dirpath + "/" + file)
+            tempMatrix = np.asarray(tempIm)
+            tempGplus = find_gPlus_in_imageMatrix(tempMatrix)
+            
+            totalGplus += tempGplus
+            histData.append(tempGplus)
+            fileCount += 1
+            searchedFiles.append(file)
+            
+            if (tempGplus >= maxGplus[0]):
+                if (maxGplus[0] == tempGplus):
+                    maxGplus[1].append(file)
+                else:
+                    maxGplus[0] = tempGplus
+                    maxGplus[1].clear()
+                    maxGplus[1].append(file)
+                
+            if (tempGplus <= minGplus[0]):
+                if(minGplus[0] == tempGplus):
+                    minGplus[1].append(file)
+                else:
+                    minGplus[0] = tempGplus
+                    minGplus[1].clear()
+                    minGplus[1].append(file)
+                    
+
+
+averageGplus = totalGplus / fileCount
+plt.hist(histData, color="purple", bins=30)
+plt.title("Histogram of green pluses in pictures")
+plt.grid(True)
+plt.xlabel("Green Pluses")
+plt.ylabel("Pictures")
+
+
+print("PICTURES SEARCHED:", fileCount, 
+      "\nTOTAL GREEN PLUSES:",totalGplus,
+      "\nMAX GREEN PLUSES AND ACCOMPANYING PICTURES WITH THIS MAX:", maxGplus, 
+      "\nMIN GREEN PLUSES AND ACCOMPANYING PICTURES WITH THE MIN:",minGplus, 
+      "\nAVERAGE GREEN PLUSES IN A PICTURE:", averageGplus)
+                
+                
+            
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
