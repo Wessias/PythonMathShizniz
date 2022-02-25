@@ -8,6 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
+from numba import jit
+
+
 
 
 
@@ -19,7 +22,7 @@ from PIL import Image
 
 
 
-imgLocation = ""
+
 
 curDir = ""
 picDir = os.walk("./pictures/labb4") #walk returns list (generator) of 3 tuples (dirpath, dirnames, filenames)
@@ -30,6 +33,7 @@ picDir = os.walk("./pictures/labb4") #walk returns list (generator) of 3 tuples 
 
 
 #This function iterates through the matrix and finds green pluses. Green = 128
+@jit(nopython=True)
 def find_gPlus_in_imageMatrix(matrix):
     gPlusCount = 0 #GREEN PLUS COUNTER
     rowMax = len(matrix) - 1
