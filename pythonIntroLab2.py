@@ -118,10 +118,12 @@ def longest_seq_in_list (DigList):
         
     return digSequenceTracker #Why is this the only one with sequence instead of seq? Retardation
 
-
+a = longest_seq_in_list(tal2)
  
 digSeqOfPaj = longest_seq_in_list(np.int16(pi5)) 
 DigSeqofE = longest_seq_in_list(np.int16(e5))
+
+
 
 #a = longest_seq_in_list(tal1)
 #b = longest_seq_in_list(tal2) 
